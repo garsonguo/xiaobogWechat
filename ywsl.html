@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>业务受理</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0,minimal-ui">
+    <link href="css/weuix.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+    <div class="page-hd">
+        <h1 class="page-hd-title" style="text-align:center;">
+            业务受理
+        </h1>
+    </div>
+    <form id="form">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="sqr" class="weui_input" type="text" placeholder="请输入申请人" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">证件号</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="zjh" class="weui_input" type="text" placeholder="请输入证件号" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">手机</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="sj" class="weui_input" type="number" placeholder="请输入手机号" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">办理业务</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="ywbl" class="weui_input" type="text" placeholder="请输入办理业务" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">坐落</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="zl" class="weui_input" type="text" placeholder="请输入坐落" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="weui_uploader">
+                        <div class="weui_uploader_hd weui_cell">
+                            <div class="weui_cell_bd weui_cell_primary">扫描附件</div>
+                        </div>
+                        <div class="weui_uploader_bd">
+                            <ul class="weui_uploader_files" id="imgUpload">
+                            </ul>
+                            <div class="weui_uploader_input_wrp">
+                                <input id="wxUpload" class="weui_uploader_input" type="file" accept="image/jpg,image/jpeg,image/png,image/gif" multiple />
+                                <!--<button id="wxUpload" class="weui_uploader_input"></button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">签收状态</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="qszt" class="weui_input" type="text" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_btn_area">
+            <a id="formSubmitBtn" href="javascript:" class="weui_btn weui_btn_primary">提交</a>
+        </div>
+    </form>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/picker.js"></script>
+    <script src="js/lrz.min.js"></script>
+    <script src="js/myChat.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        //删除图片
+        function delimg(obj) {
+            $.confirm('您确定要删除吗?', '确认删除?', function() {
+                $(obj).remove();
+            });
+            return false;
+        }
+        //微信配置
+        wx.config({
+            debug: false,
+            appId: 'wxf8b4f85f3a794e77',
+            timestamp: 1495070482,
+            nonceStr: 'Qfmn0B2DnFWhMQkX',
+            signature: '8119b7ac4d72da9586987155f505abfd0f86668f',
+            jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'hideMenuItems',
+                'showMenuItems',
+                'hideAllNonBaseMenuItem',
+                'showAllNonBaseMenuItem',
+                'translateVoice',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'onVoicePlayEnd',
+                'pauseVoice',
+                'stopVoice',
+                'uploadVoice',
+                'downloadVoice',
+                'chooseImage',
+                'previewImage',
+                'uploadImage',
+                'downloadImage',
+                'getNetworkType',
+                'openLocation',
+                'getLocation',
+                'hideOptionMenu',
+                'showOptionMenu',
+                'closeWindow',
+                'scanQRCode',
+                'chooseWXPay',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+            ]
+        });
+        wx.ready(function() {
+            //拍照或本地选图
+            var images = {
+                localId: [],
+                serverId: []
+            };
+            document.querySelector('#wxUpload').onclick = function() {
+                wx.chooseImage({
+                    success: function(res) {
+                        images.localId = res.localIds;
+                        alert('已选择 ' + res.localIds.length + ' 张图片');
+                    }
+                });
+            };
+            //预览图片
+            wx.previewImage({
+                current: 'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
+                urls: [
+                    'http://img3.douban.com/view/photo/photo/public/p2152117150.jpg',
+                    'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
+                    'http://img3.douban.com/view/photo/photo/public/p2152134700.jpg'
+                ]
+            });
+
+        })
+        $(function() {
+            var myChat = new MyChat();
+            //业务办理下拉框
+            $("#ywbl").picker({
+                title: "业务办理",
+                toolbarCloseText: '确定',
+                cols: [{
+                    textAlign: 'center',
+                    values: ['换证', '遗失补办', '变更登记', '土地首次', '土地变更']
+                }]
+            });
+            //日期选择
+            $("#yyDate").datetimePicker({
+                title: "选择日期",
+                m: 1
+            });
+            //图片压缩后上传
+            $("#wxUpload").change(
+                function(e) {
+                    var files = e.target.files;
+                    //预览图片
+                    myChat.previewImage(files);
+
+                    var len = files.length;
+                    for (var i = 0; i < len; i++) {
+                        //压缩图片
+                        lrz(files[i], {
+                            width: 640,
+                            quality: 0.7
+                        }).then(function(rst) {
+                            var img = new Image();
+                            img.src = rst.base64;
+                            var type = 'idffile';
+                            var url = '';
+                            myChat.up_ajax(img, type, url);
+                        }).catch(function(err) {
+                            alert(err);
+                        }).always(function() { // 不管是成功失败，这里都会执行
+                        });
+                    }
+                }
+            );
+            //删除图片
+            $(".weui_uploader_file").on("click", function(obj) {
+                myChat.delimg(obj);
+            });
+            //表单提交
+            $("#formSubmitBtn").on("click", function() {
+                var data = {
+                    "sqr": $("#sqr").val(),
+                    "zjh": $("#zjh").val(),
+                    "sj": $("#sj").val(),
+                    "ywbl": $("#ywbl").val(),
+                    "zl": $("#zl").val(),
+                    "yyDate": $("#yyDate").val(),
+                }
+
+                $.toast("提交成功");
+                //$.toast("提交失败", "forbidden");
+            });
+        });
+    </script>
+</body>
+
+</html>

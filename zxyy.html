@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>在线业务</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0,minimal-ui">
+    <link href="css/weuix.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+    <div class="page-hd">
+        <h1 class="page-hd-title" style="text-align:center;">
+            在线预约
+        </h1>
+    </div>
+    <form id="form">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">申请人</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="sqr" class="weui_input" type="text" placeholder="请输入申请人" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">证件号</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="zjh" class="weui_input" type="text" placeholder="请输入证件号" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">手机</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="sj" class="weui_input" type="number" placeholder="请输入手机号" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">办理业务</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="ywbl" class="weui_input" type="text" placeholder="请输入办理业务" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">坐落</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="zl" class="weui_input" type="text" placeholder="请输入坐落" />
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">预约日期</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input id="yyDate" class="weui_input" type="text" value="2017-05-15" placeholder="" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_btn_area">
+            <a id="formSubmitBtn" href="javascript:" class="weui_btn weui_btn_primary">提交</a>
+        </div>
+    </form>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/picker.js"></script>
+    <script>
+        $(function() {
+            //办理业务下拉框
+            $("#ywbl").picker({
+                title: "办理业务",
+                toolbarCloseText: '确定',
+                cols: [{
+                    textAlign: 'center',
+                    values: ['换证', '遗失补办', '变更登记', '土地首次', '土地变更']
+                }]
+            });
+            //日期选择
+            $("#yyDate").datetimePicker({
+                title: "选择日期",
+                m: 1
+            });
+            //表单提交
+            $("#formSubmitBtn").on("click", function() {
+                var data = {
+                    "sqr": $("#sqr").val(),
+                    "zjh": $("#zjh").val(),
+                    "sj": $("#sj").val(),
+                    "ywbl": $("#ywbl").val(),
+                    "zl": $("#zl").val(),
+                    "yyDate": $("#yyDate").val(),
+                }
+                $.toast("提交成功");
+                //$.toast("提交失败", "forbidden");
+            });
+        });
+    </script>
+</body>
+
+</html>

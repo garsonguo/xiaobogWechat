@@ -1,0 +1,14 @@
+.weui_tab_content {
+    padding-top: 50px;
+    background-color: #fff;
+}
+
+.weui_panel {
+    margin-top: 0;
+    position: initial;
+}
+
+.slide .slide-desc {
+    text-align: left;
+    padding-left: 10px;
+}

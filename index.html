@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>枝江市不动产微信</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0,minimal-ui">
+    <link href="css/weuix.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="slide" id="slide">
+        <ul>
+            <li>
+                <a href="detail.html">
+                    <img src="imgs/1.jpg" alt="">
+                </a>
+                <div class="slide-desc">
+                    世界如此自由,却难有真正无视无争,可悲可叹
+                </div>
+            </li>
+            <li>
+                <a href="detail.html">
+                    <img src="imgs/1.jpg" alt="">
+                </a>
+                <div class="slide-desc">
+                    世界如此自由,却难有真正无视无争,可悲可叹
+                </div>
+            </li>
+            <li>
+                <a href="detail.html">
+                    <img src="imgs/1.jpg" alt="">
+                </a>
+                <div class="slide-desc">
+                    世界如此自由,却难有真正无视无争,可悲可叹
+                </div>
+            </li>
+        </ul>
+        <div class="dot">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="weui_tab " style="height:44px;" id="navbar">
+        <div class="weui_navbar" style="height:44px;">
+            <div class="weui_navbar_item">
+                已发货
+            </div>
+            <div class="weui_navbar_item">
+                未发货
+            </div>
+            <div class="weui_navbar_item">
+                全部订单
+            </div>
+        </div>
+        <div class="weui_tab_content">
+            <div class="weui-loadmore" style="display:none;">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore-tips">正在加载</span>
+            </div>
+            <div class="weui_panel">
+                <div class="weui_panel_bd">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/zepto.min.js"></script>
+    <script src="js/swipe.js"></script>
+    <script src="js/lazyimg.js"></script>
+    <script src="js/updown.js"></script>
+    <script src="js/myChat.js"></script>
+    <script>
+        $(function() {
+            var myChat = new MyChat();
+            //图片轮播
+            $('#slide').swipeSlide({
+                autoSwipe: true, //自动切换默认是
+                speed: 3000, //速度默认4000
+                continuousScroll: true, //默认否
+                transitionType: 'cubic-bezier(0.22, 0.69, 0.72, 0.88)', //过渡动画linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier
+                lazyLoad: true, //懒加载默认否
+                firstCallback: function(i, sum, me) {
+                    me.find('.dot').children().first().addClass('cur');
+                },
+                callback: function(i, sum, me) {
+                    me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+                }
+            });
+            //默认选中第一个tab
+            $('#navbar').tab({
+                defaultIndex: 0,
+                activeClass: "tab-green"
+            });
+            //加载数据
+            $('.weui_navbar_item').on('click', function() {
+
+                $('.weui_panel_bd').html('');
+                $('.dropload-down').remove();
+                $('.dropload-up').remove();
+                //页数 
+                var page = 0;
+                // 每页展示10个
+                var size = 10;
+                //上拉下拉加载
+                myChat.updownList(page, size);
+            });
+            //页数 
+            var page = 0;
+            // 每页展示10个
+            var size = 10;
+            //上拉下拉加载
+            myChat.updownList(page, size);
+        })
+    </script>
+</body>
+
+</html>
