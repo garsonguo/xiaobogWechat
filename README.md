@@ -7,7 +7,7 @@
 <li>index.html——新闻页</li>
 <li>detail.html——详情页</li>
 </ol>
-***
+
 其他实现：
 <ol>
 <li>zxyy.html——表单页1</li>
